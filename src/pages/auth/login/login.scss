@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.card {
+  height: 375px;
+  width: 500px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  border-radius: 22px;
+  border: 1px solid #03a9f4;
+
+  .button {
+    width: 60%;
+    align-self: center;
+  }
+}
