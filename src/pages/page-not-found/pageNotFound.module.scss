@@ -1,0 +1,20 @@
+.container {
+  display: inline-block;
+  background: #00aff9 url(https://cdn-icons-png.flaticon.com/512/580/580185.png)
+    center/cover no-repeat;
+  height: 100vh;
+  margin: 0;
+  color: white;
+  width: 100%;
+  background-size: inherit;
+}
+
+.heading-line {
+  margin: 0.8em 3rem;
+  font: 4em Roboto;
+}
+.para {
+  display: inline-block;
+  margin: 0.2em 3rem;
+  font: 2em Roboto;
+}

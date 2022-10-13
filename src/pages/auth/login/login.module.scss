@@ -9,12 +9,16 @@
   height: 375px;
   width: 500px;
   background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 20px;
   border-radius: 22px;
   border: 1px solid #03a9f4;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    gap: 20px;
+  }
 
   .button {
     width: 60%;
