@@ -1,5 +1,5 @@
 import { Button, CardContent, TextField } from "@mui/material";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AlertBoxContext } from "../../../context/AlertBoxContext";
 import { POST } from "../../../utils/axios";
@@ -13,11 +13,6 @@ import { useForm } from "react-hook-form";
 const LoginPage = () => {
   const { setMessage } = useContext(AlertBoxContext);
   const navigate = useNavigate();
-
-  const gotoRegister = () => {
-    navigate("/auth/register");
-  };
-
   const formSchema = Yup.object().shape({
     email: Yup.string()
       .email("Please enter valid Email")
@@ -26,9 +21,7 @@ const LoginPage = () => {
       .required("Password required")
       .min(6, "Password must be at 6 char long"),
   });
-
   const formOptions = { resolver: yupResolver(formSchema) };
-
   const {
     register,
     handleSubmit,
@@ -56,6 +49,10 @@ const LoginPage = () => {
           isOpen: true,
         });
       });
+  };
+
+  const gotoRegister = () => {
+    navigate("/auth/register");
   };
 
   return (

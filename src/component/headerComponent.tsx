@@ -39,6 +39,10 @@ function HeaderComponent() {
     navigate("/auth/login");
   };
 
+  const onClickHome = () => {
+    navigate("/");
+  };
+
   useEffect(() => {
     const user = JSON.parse(getDataFromLocalStorage("user"));
 
@@ -57,6 +61,7 @@ function HeaderComponent() {
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
+            onClick={onClickHome}
           >
             <WorkIcon />
           </IconButton>

@@ -1,9 +1,9 @@
-import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
+
+import { Box } from "@mui/material";
 import HeaderComponent from "../../../component/headerComponent";
 import { GET } from "../../../utils/axios";
 import DashboardTile from "./component/dashboardTile";
-
 import style from "./dashboard.module.scss";
 
 function DashboardPage() {
@@ -11,6 +11,7 @@ function DashboardPage() {
     jobs: 0,
     users: 0,
   });
+
   useEffect(() => {
     GET("job/get-dashboard").then((res: any) => {
       setDashboard(res.data);

@@ -15,3 +15,7 @@ export const GET = async (url: string, queryParam: Object = {}) => {
 export const DELETE = async (url: string, id: number) => {
   return await axios.delete(BASE_URL + url + id);
 };
+
+export const PATCH = async (url: string, id: number, data: any) => {
+  return await axios.patch(BASE_URL + url + "/" + id, data);
+};

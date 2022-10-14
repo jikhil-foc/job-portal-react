@@ -26,20 +26,24 @@ import DeleteConfirmation from "../../../component/deleteConfirmation";
 import CreateJobDialog from "./components/create-job-dialog";
 import { AlertBoxContext } from "../../../context/AlertBoxContext";
 import SearchIcon from "@mui/icons-material/Search";
+import EditJobDialog from "./components/edit-job-dialog";
 
 function JobPage() {
-  const { setMessage } = useContext(AlertBoxContext);
-  const [jobs, setJobs] = useState([]);
-  const [dataLoaded, setDataLoaded] = useState(false);
-  const [open, setOpen] = useState(false);
   const [deletedJob, setDelete] = useState(false);
-  const [jobId, setJobId] = useState(0);
-  const [openCreateDialog, setOpenCreateDialog] = useState(false);
   const [filter, setFilter] = useState("");
+  const [jobDetails, setJobsDetails] = useState();
+  const [jobId, setJobId] = useState(0);
+  const [jobs, setJobs] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [openCreateDialog, setOpenCreateDialog] = useState(false);
+  const [openEditDialog, setOpenEditDialog] = useState(false);
+  const { setMessage } = useContext(AlertBoxContext);
 
   useEffect(() => {
-    getAllJobs();
-  }, [deletedJob, openCreateDialog]);
+    if (!openCreateDialog || !openEditDialog) {
+      getAllJobs();
+    }
+  }, [deletedJob, openCreateDialog, openEditDialog]);
 
   useEffect(() => {
     if (deletedJob) {
@@ -51,15 +55,18 @@ function JobPage() {
           isOpen: true,
         });
         setJobId(0);
-        setDataLoaded(true);
+
         setDelete(false);
       });
     }
   }, [deletedJob]);
 
-  const onClickDeleteBtn = (id: number) => {
-    setJobId(id);
-    setOpen(true);
+  const closeCreateDialog = () => {
+    setOpenCreateDialog(false);
+  };
+
+  const closeEditDialog = () => {
+    setOpenEditDialog(false);
   };
 
   const getAllJobs = () => {
@@ -69,8 +76,17 @@ function JobPage() {
   };
 
   const onChangeFilter = (ev: any) => {
-    console.log(ev.target.value);
     setFilter(ev.target.value);
+  };
+
+  const onClickDeleteBtn = (id: number) => {
+    setJobId(id);
+    setOpen(true);
+  };
+
+  const onClickJobEdit = (data: any) => {
+    setJobsDetails(data);
+    setOpenEditDialog(true);
   };
 
   const onClickFilterBtn = () => {
@@ -79,10 +95,6 @@ function JobPage() {
 
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const closeCreateDialog = () => {
-    setOpenCreateDialog(false);
   };
 
   return (
@@ -162,13 +174,20 @@ function JobPage() {
                         <IconButton
                           aria-label="delete"
                           type="button"
+                          color="error"
                           onClick={() => onClickDeleteBtn(row.id)}
                         >
                           <DeleteIcon />
                         </IconButton>
                       </Tooltip>
                       <Tooltip title="Edit">
-                        <IconButton aria-label="edit">
+                        <IconButton
+                          aria-label="edit"
+                          color="success"
+                          onClick={() => {
+                            onClickJobEdit(row);
+                          }}
+                        >
                           <EditIcon />
                         </IconButton>
                       </Tooltip>
@@ -193,6 +212,12 @@ function JobPage() {
         open={openCreateDialog}
         handleClose={closeCreateDialog}
       ></CreateJobDialog>
+
+      <EditJobDialog
+        open={openEditDialog}
+        handleClose={closeEditDialog}
+        jobDetails={jobDetails}
+      ></EditJobDialog>
     </Box>
   );
 }

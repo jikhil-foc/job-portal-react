@@ -1,10 +1,12 @@
-import { Card, CardContent, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 import "./dashboardTile.scss";
 
+import { Card, CardContent, Typography } from "@mui/material";
+
 export default function DashboardTile(props: any) {
   const { title, count, navigateUrl } = props;
+
   const navigate = useNavigate();
 
   const onClickCard = () => {

@@ -1,11 +1,8 @@
-import { useContext } from "react";
-
-import { POST } from "../../../../utils/axios";
-import { AlertBoxContext } from "../../../../context/AlertBoxContext";
-
 import {
+  Autocomplete,
   Box,
   Button,
+  Chip,
   FormControl,
   FormHelperText,
   InputLabel,
@@ -14,14 +11,19 @@ import {
   Select,
   TextField,
 } from "@mui/material";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import styleSheet from "./create-job-dialog.module.scss";
-import * as Yup from "yup";
 
-function CreateJobDialog(props: any) {
-  const { open, handleClose } = props;
+import styleSheet from "./create-job-dialog.module.scss";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
+import { PATCH, POST } from "../../../../utils/axios";
+import { AlertBoxContext } from "../../../../context/AlertBoxContext";
+
+function EditJobDialog(props: any) {
+  const { open, handleClose, jobDetails } = props;
   const { setMessage } = useContext(AlertBoxContext);
+
   const formSchema = Yup.object().shape({
     title: Yup.string().required("Title Required"),
     description: Yup.string().required("Description Required"),
@@ -30,12 +32,49 @@ function CreateJobDialog(props: any) {
     salary: Yup.string().required("Salary Required"),
     skills: Yup.array(),
   });
+
   const formOptions = { resolver: yupResolver(formSchema) };
   const {
     register,
+    setValue,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm(formOptions);
+
+  useEffect(() => {
+    setJobDetails();
+  }, [jobDetails]);
+
+  const setJobDetails = () => {
+    if (jobDetails) {
+      console.log(jobDetails);
+
+      setValue("title", jobDetails.title);
+      setValue("description", jobDetails.description);
+      setValue("experience", jobDetails.experience);
+      setValue("company", jobDetails.company);
+      setValue("salary", jobDetails.salary);
+      setValue("skills", jobDetails.skills);
+    }
+  };
+
+  const onSubmit = (data: any) => {
+    const formData = {
+      ...data,
+      skills: [],
+    };
+
+    PATCH("job/update-job", jobDetails.id, formData).then((res) => {
+      console.log(res);
+      setMessage({
+        displayMessage: "Job has been Updated",
+        type: "success",
+        isOpen: true,
+      });
+      handleClose();
+    });
+  };
 
   const style = {
     position: "absolute" as "absolute",
@@ -47,23 +86,6 @@ function CreateJobDialog(props: any) {
     border: "2px solid #000",
     boxShadow: 24,
     p: 4,
-  };
-
-  const onSubmit = (data: any) => {
-    const formData = {
-      ...data,
-      skills: [],
-    };
-
-    POST("job/create-job", formData).then((res) => {
-      console.log(res);
-      setMessage({
-        displayMessage: "Job has been created",
-        type: "success",
-        isOpen: true,
-      });
-      handleClose();
-    });
   };
 
   return (
@@ -103,6 +125,7 @@ function CreateJobDialog(props: any) {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="Experience"
+              defaultValue={getValues("experience")}
               {...register("experience", { required: true })}
               required
             >
@@ -149,7 +172,7 @@ function CreateJobDialog(props: any) {
           />
 
           <Button type="submit" className="button" variant="contained">
-            Create
+            Update
           </Button>
           <Button className="button" variant="outlined" onClick={handleClose}>
             Cancel
@@ -160,4 +183,4 @@ function CreateJobDialog(props: any) {
   );
 }
 
-export default CreateJobDialog;
+export default EditJobDialog;
