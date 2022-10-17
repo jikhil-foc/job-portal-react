@@ -27,6 +27,7 @@ import CreateJobDialog from "./components/create-job-dialog";
 import { AlertBoxContext } from "../../../context/AlertBoxContext";
 import SearchIcon from "@mui/icons-material/Search";
 import EditJobDialog from "./components/edit-job-dialog";
+import locationData from "../../../assets/json/location.json";
 
 function JobPage() {
   const [deletedJob, setDelete] = useState(false);
@@ -34,10 +35,21 @@ function JobPage() {
   const [jobDetails, setJobsDetails] = useState();
   const [jobId, setJobId] = useState(0);
   const [jobs, setJobs] = useState([]);
+  const [locations, setLocations] = useState([
+    {
+      id: "1",
+      name: "Mumbai",
+      state: "Maharashtra",
+    },
+  ]);
   const [open, setOpen] = useState(false);
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const { setMessage } = useContext(AlertBoxContext);
+
+  useEffect(() => {
+    setLocations(locationData);
+  }, [locations]);
 
   useEffect(() => {
     if (!openCreateDialog || !openEditDialog) {
@@ -145,6 +157,7 @@ function JobPage() {
                 <StyledTableCell align="left">Name</StyledTableCell>
                 <StyledTableCell align="left">Description</StyledTableCell>
                 <StyledTableCell align="left">Company</StyledTableCell>
+                <StyledTableCell align="left">Location</StyledTableCell>
                 <StyledTableCell align="left">Experience</StyledTableCell>
                 <StyledTableCell align="left">Salary</StyledTableCell>
                 <StyledTableCell align="left">Action</StyledTableCell>
@@ -161,6 +174,9 @@ function JobPage() {
                   </TableCell>
                   <TableCell className={style["cell"]} align="left">
                     {row.company}
+                  </TableCell>
+                  <TableCell className={style["cell"]} align="left">
+                    {row.location}
                   </TableCell>
                   <TableCell className={style["cell"]} align="left">
                     {row.experience}
@@ -211,12 +227,14 @@ function JobPage() {
       <CreateJobDialog
         open={openCreateDialog}
         handleClose={closeCreateDialog}
+        locations={locations}
       ></CreateJobDialog>
 
       <EditJobDialog
         open={openEditDialog}
         handleClose={closeEditDialog}
         jobDetails={jobDetails}
+        locations={locations}
       ></EditJobDialog>
     </Box>
   );

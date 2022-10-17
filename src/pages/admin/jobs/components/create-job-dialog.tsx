@@ -20,7 +20,7 @@ import styleSheet from "./create-job-dialog.module.scss";
 import * as Yup from "yup";
 
 function CreateJobDialog(props: any) {
-  const { open, handleClose } = props;
+  const { open, handleClose, locations } = props;
   const { setMessage } = useContext(AlertBoxContext);
   const formSchema = Yup.object().shape({
     title: Yup.string().required("Title Required"),
@@ -28,6 +28,7 @@ function CreateJobDialog(props: any) {
     experience: Yup.string().required("Experience Required"),
     company: Yup.string().required("Company Required"),
     salary: Yup.string().required("Salary Required"),
+    location: Yup.string().required("Location Required"),
     skills: Yup.array(),
   });
   const formOptions = { resolver: yupResolver(formSchema) };
@@ -81,7 +82,7 @@ function CreateJobDialog(props: any) {
             label="Title"
             variant="outlined"
             error={errors.title ? true : false}
-            helperText={errors.title ? "Please Enter Title" : ""}
+            helperText={errors?.title?.message?.toString() ?? ""}
             {...register("title", { required: true })}
             required
           />
@@ -92,7 +93,7 @@ function CreateJobDialog(props: any) {
             label="Description"
             variant="outlined"
             error={errors.description ? true : false}
-            helperText={errors.description ? "Please Enter Description" : ""}
+            helperText={errors?.description?.message?.toString() ?? ""}
             {...register("description", { required: true })}
             required
           />
@@ -133,10 +134,34 @@ function CreateJobDialog(props: any) {
             label="Company"
             variant="outlined"
             error={errors.company ? true : false}
-            helperText={errors.company ? "Please Enter Company" : ""}
+            helperText={errors?.company?.message?.toString() ?? ""}
             {...register("company", { required: true })}
             required
           />
+
+          <FormControl error={errors.location ? true : false}>
+            <InputLabel id="location-select-label">Location</InputLabel>
+            <Select
+              labelId="location-select-label"
+              id="location-select"
+              label="Location"
+              {...register("location", { required: true })}
+              required
+            >
+              {locations.map((location: any) => {
+                return (
+                  <MenuItem key={location.name} value={location.name}>
+                    {location.name}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+            {errors.location && (
+              <FormHelperText>
+                {errors?.location?.message?.toString() ?? ""}
+              </FormHelperText>
+            )}
+          </FormControl>
 
           <TextField
             id="outlined-basic"
@@ -144,7 +169,7 @@ function CreateJobDialog(props: any) {
             label="Salary"
             variant="outlined"
             error={errors.salary ? true : false}
-            helperText={errors.salary ? "Please Enter Salary" : ""}
+            helperText={errors?.salary?.message?.toString() ?? ""}
             {...register("salary", { required: true })}
           />
 

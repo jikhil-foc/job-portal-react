@@ -1,8 +1,6 @@
 import {
-  Autocomplete,
   Box,
   Button,
-  Chip,
   FormControl,
   FormHelperText,
   InputLabel,
@@ -11,7 +9,7 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 import styleSheet from "./create-job-dialog.module.scss";
@@ -21,7 +19,7 @@ import { PATCH, POST } from "../../../../utils/axios";
 import { AlertBoxContext } from "../../../../context/AlertBoxContext";
 
 function EditJobDialog(props: any) {
-  const { open, handleClose, jobDetails } = props;
+  const { open, handleClose, jobDetails, locations } = props;
   const { setMessage } = useContext(AlertBoxContext);
 
   const formSchema = Yup.object().shape({
@@ -30,6 +28,7 @@ function EditJobDialog(props: any) {
     experience: Yup.string().required("Experience Required"),
     company: Yup.string().required("Company Required"),
     salary: Yup.string().required("Salary Required"),
+    location: Yup.string().required("Location Required"),
     skills: Yup.array(),
   });
 
@@ -103,7 +102,7 @@ function EditJobDialog(props: any) {
             label="Title"
             variant="outlined"
             error={errors.title ? true : false}
-            helperText={errors.title ? "Please Enter Title" : ""}
+            helperText={errors?.title?.message?.toString() ?? ""}
             {...register("title", { required: true })}
             required
           />
@@ -114,7 +113,7 @@ function EditJobDialog(props: any) {
             label="Description"
             variant="outlined"
             error={errors.description ? true : false}
-            helperText={errors.description ? "Please Enter Description" : ""}
+            helperText={errors?.description?.message?.toString() ?? ""}
             {...register("description", { required: true })}
             required
           />
@@ -146,7 +145,9 @@ function EditJobDialog(props: any) {
               </MenuItem>
             </Select>
             {errors.experience && (
-              <FormHelperText>Experience Required</FormHelperText>
+              <FormHelperText>
+                {errors?.experience?.message?.toString() ?? ""}
+              </FormHelperText>
             )}
           </FormControl>
 
@@ -156,10 +157,32 @@ function EditJobDialog(props: any) {
             label="Company"
             variant="outlined"
             error={errors.company ? true : false}
-            helperText={errors.company ? "Please Enter Company" : ""}
+            helperText={errors?.company?.message?.toString() ?? ""}
             {...register("company", { required: true })}
             required
           />
+
+          <FormControl error={errors.location ? true : false}>
+            <InputLabel id="location-select-label">Location</InputLabel>
+            <Select
+              labelId="location-select-label"
+              id="location-select"
+              label="Location"
+              {...register("location", { required: true })}
+              required
+            >
+              {locations.map((location: any) => (
+                <MenuItem key={location.name} value={location.name}>
+                  {location.name}
+                </MenuItem>
+              ))}
+            </Select>
+            {errors.location && (
+              <FormHelperText>
+                {errors?.location?.message?.toString() ?? ""}
+              </FormHelperText>
+            )}
+          </FormControl>
 
           <TextField
             id="outlined-basic"
@@ -167,7 +190,7 @@ function EditJobDialog(props: any) {
             label="Salary"
             variant="outlined"
             error={errors.salary ? true : false}
-            helperText={errors.salary ? "Please Enter Salary" : ""}
+            helperText={errors?.salary?.message?.toString() ?? ""}
             {...register("salary", { required: true })}
           />
 
