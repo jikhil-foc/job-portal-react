@@ -11,6 +11,10 @@ export const RoutingURL = {
       dashboard: "dashboard",
       jobs: "jobs",
     },
+    user: {
+      BASEURL: "client",
+      jobs: "jobs",
+    },
   },
   unAuth: {
     BASEURL: "page-401",

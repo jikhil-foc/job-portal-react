@@ -23,6 +23,7 @@ import { useNavigate } from "react-router-dom";
 function HeaderComponent() {
   const navigate = useNavigate();
   const [userName, setUserName] = useState("");
+  const [user, setUser] = useState();
   const [menuBtn, setMenuBtn] = useState<null | HTMLElement>(null);
 
   const open = Boolean(menuBtn);
@@ -47,6 +48,7 @@ function HeaderComponent() {
     const user = JSON.parse(getDataFromLocalStorage("user"));
 
     if (user) {
+      setUser(user);
       setUserName(user.name);
     }
   }, [userName]);

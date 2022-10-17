@@ -11,7 +11,7 @@ function AlertComponent(props: any) {
     >
       <Alert
         onClose={closeAlert}
-        severity={message.type == "success" ? "success" : "error"}
+        severity={message.type === "success" ? "success" : "error"}
       >
         {message.displayMessage}
       </Alert>

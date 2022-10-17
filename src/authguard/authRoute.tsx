@@ -3,7 +3,6 @@ import {
   IsAdmin,
   isAuthenticated,
   isAuthorized,
-  UserRole,
 } from "../utils/localstorageUtils";
 import { RoutingURL } from "../utils/urls";
 
@@ -19,14 +18,22 @@ export const LoginGuard = () => {
   return !isAuthenticated() ? (
     <Outlet />
   ) : IsAdmin() ? (
-    <Navigate to="/portal/admin/dashboard" />
+    <Navigate
+      to={`/${RoutingURL.portal.BASEURL}/${RoutingURL.portal.admin.BASEURL}`}
+    />
   ) : (
-    <Navigate to="/page-401" />
+    <Navigate
+      to={`/${RoutingURL.portal.BASEURL}/${RoutingURL.portal.user.BASEURL}`}
+    />
   );
 };
 
 export const RoleGuard = (props: any) => {
-  return isAuthorized(props.role) ? <Outlet /> : <Navigate to="/page-401" />;
+  return isAuthorized(props.role) ? (
+    <Outlet />
+  ) : (
+    <Navigate to={`/${RoutingURL.unAuth.BASEURL}`} />
+  );
 };
 
 export default ProtectedRoute;

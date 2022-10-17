@@ -1,5 +1,4 @@
 import axios from "axios";
-import { url } from "inspector";
 
 const BASE_URL = "http://localhost:3010/api/v1/";
 export const POST = async (url: string, data: any) => {

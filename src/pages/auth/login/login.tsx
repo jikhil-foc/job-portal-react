@@ -3,7 +3,10 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AlertBoxContext } from "../../../context/AlertBoxContext";
 import { POST } from "../../../utils/axios";
-import { setDataToLocalStorage } from "../../../utils/localstorageUtils";
+import {
+  setDataToLocalStorage,
+  UserRole,
+} from "../../../utils/localstorageUtils";
 import style from "./login.module.scss";
 
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -34,10 +37,10 @@ const LoginPage = () => {
         setDataToLocalStorage("user", res.data.user);
         setDataToLocalStorage("access_token", res.data.access_token);
 
-        if (res.data.user.role === "admin") {
+        if (res.data.user.role === UserRole.ADMIN) {
           navigate("/portal/admin/dashboard");
-        } else if (res.data.user.role === "user") {
-          navigate("/portal/job/home");
+        } else if (res.data.user.role === UserRole.USER) {
+          navigate("/portal/client/jobs");
         }
       })
       .catch((err) => {
