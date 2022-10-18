@@ -14,10 +14,11 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import styleSheet from "./create-job-dialog.module.scss";
 import * as Yup from "yup";
+import { Editor } from "@tinymce/tinymce-react";
 
 function CreateJobDialog(props: any) {
   const { open, handleClose, locations } = props;
@@ -34,6 +35,7 @@ function CreateJobDialog(props: any) {
   const formOptions = { resolver: yupResolver(formSchema) };
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors },
   } = useForm(formOptions);
@@ -56,15 +58,17 @@ function CreateJobDialog(props: any) {
       skills: [],
     };
 
-    POST("job/create-job", formData).then((res) => {
-      console.log(res);
-      setMessage({
-        displayMessage: "Job has been created",
-        type: "success",
-        isOpen: true,
-      });
-      handleClose();
-    });
+    console.log(formData);
+
+    // POST("job/create-job", formData).then((res) => {
+    //   console.log(res);
+    //   setMessage({
+    //     displayMessage: "Job has been created",
+    //     type: "success",
+    //     isOpen: true,
+    //   });
+    //   handleClose();
+    // });
   };
 
   return (
@@ -74,7 +78,7 @@ function CreateJobDialog(props: any) {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={style} width={100}>
+      <Box sx={style} width={"300px"}>
         <form onSubmit={handleSubmit(onSubmit)} className={styleSheet["form"]}>
           <TextField
             id="outlined-basic"
@@ -87,7 +91,31 @@ function CreateJobDialog(props: any) {
             required
           />
 
-          <TextField
+          <Controller
+            control={control}
+            name="description"
+            render={({ field }) => (
+              <Editor
+                {...field}
+                apiKey="qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc"
+                init={{
+                  height: 200,
+                  menubar: false,
+                }}
+                onEditorChange={(ev: any) => {
+                  field.onChange(ev);
+                }}
+              />
+            )}
+          />
+
+          {errors.description && (
+            <FormHelperText>
+              {errors?.description?.message?.toString() ?? ""}
+            </FormHelperText>
+          )}
+
+          {/* <TextField
             id="outlined-basic"
             type={"text"}
             label="Description"
@@ -96,7 +124,7 @@ function CreateJobDialog(props: any) {
             helperText={errors?.description?.message?.toString() ?? ""}
             {...register("description", { required: true })}
             required
-          />
+          /> */}
 
           <FormControl error={errors.experience ? true : false}>
             <InputLabel id="demo-simple-select-label">Experience</InputLabel>
@@ -139,29 +167,35 @@ function CreateJobDialog(props: any) {
             required
           />
 
-          <FormControl error={errors.location ? true : false}>
-            <InputLabel id="location-select-label">Location</InputLabel>
-            <Select
-              labelId="location-select-label"
-              id="location-select"
-              label="Location"
-              {...register("location", { required: true })}
-              required
-            >
-              {locations.map((location: any) => {
-                return (
-                  <MenuItem key={location.name} value={location.name}>
-                    {location.name}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-            {errors.location && (
-              <FormHelperText>
-                {errors?.location?.message?.toString() ?? ""}
-              </FormHelperText>
+          <Controller
+            control={control}
+            name="location"
+            render={({ field }) => (
+              <FormControl error={errors.location ? true : false}>
+                <InputLabel id="location-select-label">Location</InputLabel>
+                <Select
+                  labelId="location-select-label"
+                  id="location-select"
+                  label="Location"
+                  {...field}
+                  required
+                >
+                  {locations.map((location: any) => {
+                    return (
+                      <MenuItem key={location.name} value={location.name}>
+                        {location.name}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+                {errors.location && (
+                  <FormHelperText>
+                    {errors?.location?.message?.toString() ?? ""}
+                  </FormHelperText>
+                )}
+              </FormControl>
             )}
-          </FormControl>
+          ></Controller>
 
           <TextField
             id="outlined-basic"
@@ -176,6 +210,8 @@ function CreateJobDialog(props: any) {
           <Button type="submit" className="button" variant="contained">
             Create
           </Button>
+
+          <p>{}</p>
           <Button className="button" variant="outlined" onClick={handleClose}>
             Cancel
           </Button>

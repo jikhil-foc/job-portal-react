@@ -55,7 +55,7 @@ function JobPage() {
     if (!openCreateDialog || !openEditDialog) {
       getAllJobs();
     }
-  }, [deletedJob, openCreateDialog, openEditDialog]);
+  }, [openCreateDialog, openEditDialog]);
 
   useEffect(() => {
     if (deletedJob) {
@@ -69,6 +69,7 @@ function JobPage() {
         setJobId(0);
 
         setDelete(false);
+        getAllJobs();
       });
     }
   }, [deletedJob]);
