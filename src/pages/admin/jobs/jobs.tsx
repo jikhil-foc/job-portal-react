@@ -156,9 +156,11 @@ function JobPage() {
             <TableHead>
               <TableRow>
                 <StyledTableCell align="left">Name</StyledTableCell>
-                <StyledTableCell align="left">Description</StyledTableCell>
+
                 <StyledTableCell align="left">Company</StyledTableCell>
                 <StyledTableCell align="left">Location</StyledTableCell>
+                <StyledTableCell align="left">Type</StyledTableCell>
+                <StyledTableCell align="left">Shift</StyledTableCell>
                 <StyledTableCell align="left">Experience</StyledTableCell>
                 <StyledTableCell align="left">Salary</StyledTableCell>
                 <StyledTableCell align="left">Action</StyledTableCell>
@@ -170,14 +172,18 @@ function JobPage() {
                   <TableCell className={style["cell"]} align="left">
                     {row?.title}
                   </TableCell>
-                  <TableCell className={style["cell"]} align="left">
-                    {row.description}
-                  </TableCell>
+
                   <TableCell className={style["cell"]} align="left">
                     {row.company}
                   </TableCell>
                   <TableCell className={style["cell"]} align="left">
                     {row.location}
+                  </TableCell>
+                  <TableCell className={style["cell"]} align="left">
+                    {row.jobType}
+                  </TableCell>
+                  <TableCell className={style["cell"]} align="left">
+                    {row.shift}
                   </TableCell>
                   <TableCell className={style["cell"]} align="left">
                     {row.experience}

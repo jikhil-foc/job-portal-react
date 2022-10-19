@@ -7,11 +7,11 @@ import style from "./user-home.module.scss";
 
 function UserHome() {
   const [jobs, setJob] = useState([]);
-  const [filter, setFilter] = useState("");
+  const [title, setTitle] = useState("");
+  const [location, setLocation] = useState("");
 
   useEffect(() => {
-    GET("client-job/get-all", { filter }).then((res: any) => {
-      console.log(res.data);
+    GET("client-job/get-all", { title, location }).then((res: any) => {
       setJob(res.data.jobs);
     });
   }, []);

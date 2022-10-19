@@ -7,6 +7,7 @@ import LoginPage from "../pages/auth/login/login";
 import RegisterPage from "../pages/auth/register/register";
 import Page401 from "../pages/page-401/page401";
 import PageNotFound from "../pages/page-not-found/pageNotFound";
+import JobDetails from "../pages/user-home/job-details/job-details";
 import UserHome from "../pages/user-home/user-home";
 import { UserRole } from "../utils/localstorageUtils";
 import { RoutingURL } from "../utils/urls";
@@ -61,6 +62,10 @@ function RouterComponent() {
               element={<Navigate to={RoutingURL.portal.user.jobs} />}
             />
             <Route path={RoutingURL.portal.user.jobs} element={<UserHome />} />
+            <Route
+              path={`${RoutingURL.portal.user.jobs}/:id`}
+              element={<JobDetails />}
+            />
           </Route>
         </Route>
         <Route path={RoutingURL.unAuth.BASEURL} element={<Page401 />} />

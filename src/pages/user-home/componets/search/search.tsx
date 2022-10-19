@@ -1,4 +1,4 @@
-import { Button, Container } from "@mui/material";
+import { Button, Container, Divider } from "@mui/material";
 import React from "react";
 import TextboxWithIcon from "../TextboxWithIcon/textbox-with-icon";
 import SearchIcon from "@mui/icons-material/Search";
@@ -21,6 +21,9 @@ function SearchComponent() {
 
         <Button variant="contained">Find jobs</Button>
       </div>
+      <Divider
+        sx={{ marginBottom: "50px", marginTop: "50px", width: "100%" }}
+      ></Divider>
     </Container>
   );
 }
