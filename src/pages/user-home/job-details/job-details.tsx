@@ -3,6 +3,7 @@ import {
   CardContent,
   Chip,
   Container,
+  Divider,
   InputLabel,
   Stack,
 } from "@mui/material";
@@ -80,6 +81,7 @@ function JobDetails() {
                 <Chip icon={<AccessTimeFilledIcon />} label={job.shift} />
               </Stack>
             </Stack>
+            <Divider />
             <Container className={style["description-container"]}>
               <div dangerouslySetInnerHTML={{ __html: job.description }}></div>
             </Container>

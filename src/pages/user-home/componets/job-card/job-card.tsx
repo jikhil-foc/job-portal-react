@@ -30,17 +30,32 @@ function JobCard(props: any) {
       onClick={onClickNavigate}
     >
       <CardHeader></CardHeader>
-      <CardContent className={style["content"]}>
-        <InputLabel className={style["title"]}>{job.title}</InputLabel>
-        <InputLabel className={style["sub-title"]}>{job.company}</InputLabel>
-        <InputLabel className={style["location"]}>{job.location}</InputLabel>
+      <CardContent className={style["content"]} sx={{ cursor: "pointer" }}>
+        <InputLabel className={style["title"]} sx={{ cursor: "pointer" }}>
+          {job.title}
+        </InputLabel>
+        <InputLabel className={style["sub-title"]} sx={{ cursor: "pointer" }}>
+          {job.company}
+        </InputLabel>
+        <InputLabel className={style["location"]} sx={{ cursor: "pointer" }}>
+          {job.location}
+        </InputLabel>
         <Stack direction="row" spacing={1}>
           <Chip
             icon={<LocalAtmIcon />}
             label={`Up to ₹${job.salary} a month`}
+            sx={{ cursor: "pointer" }}
           />
-          <Chip icon={<WorkIcon />} label={job.jobType} />
-          <Chip icon={<AccessTimeFilledIcon />} label={job.shift} />
+          <Chip
+            icon={<WorkIcon />}
+            label={job.jobType}
+            sx={{ cursor: "pointer" }}
+          />
+          <Chip
+            icon={<AccessTimeFilledIcon />}
+            label={job.shift}
+            sx={{ cursor: "pointer" }}
+          />
         </Stack>
       </CardContent>
     </Card>
